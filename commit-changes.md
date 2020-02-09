@@ -1,6 +1,6 @@
 1.  Basic scaffolding in place:  app.js, landing.ejs, campgrounds.ejs.  No real functionality yet.
 
-2.  changes
+2.  Changes
     1. Create header and footer partials.
     2. Include bootstrap.  Some styling.
 
@@ -10,3 +10,4 @@
     3. setup route to show form
     4. add basic form
 
+4. Styled campgrounds page
