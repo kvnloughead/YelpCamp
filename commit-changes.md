@@ -1,0 +1,1 @@
+1.  Basically scaffolding in place:  app.js, landing.ejs, campgrounds.ejs.  No real functionality yet.
