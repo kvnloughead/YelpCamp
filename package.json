@@ -1,8 +1,18 @@
 {
   "name": "yelpcamp",
   "version": "1.0.0",
-  "description": "YelpCamp v1",
+  "description": "My version of Colt Steele's YelpCamp app, from his Web Developer's Bootcamp course on Udemy.",
   "main": "app.js",
+  "dependencies": {
+    "bytes": "^3.1.0",
+    "content-type": "^1.0.4",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.1",
+    "nodemon": "^2.0.2",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,11 +25,5 @@
   "bugs": {
     "url": "https://github.com/kvnloughead/YelpCamp/issues"
   },
-  "homepage": "https://github.com/kvnloughead/YelpCamp#readme",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "ejs": "^3.0.1",
-    "express": "^4.17.1",
-    "request": "^2.88.0"
-  }
+  "homepage": "https://github.com/kvnloughead/YelpCamp#readme"
 }

@@ -12,6 +12,9 @@
 
 4. Styled campgrounds page
 
-5. 
+5. Navbar and more styling
     1. added navbar to header.ejs
     2. styled add new campgrounds page (with inline style tags)
+
+6. 
+
