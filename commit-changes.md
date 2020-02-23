@@ -16,5 +16,8 @@
     1. added navbar to header.ejs
     2. styled add new campgrounds page (with inline style tags)
 
-6. 
+6. Add Mongoose and enable persistence of new campgrounds being added
+    1. Installed and configured mongoose
+    2. Setup campground model
+    3. Refactored `app.get("campgrounds)` ake use of campground model inside of our projects routes
 

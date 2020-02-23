@@ -1,8 +1,14 @@
-const express = require("express");
-const app = express();
-const request = require("request");
+const express   = require("express"),
+      app       = express(),
+      request   = require("request"),
+      mongoose  = require("mongoose"),
+      bodyParser = require("body-parser");
 
-const bodyParser = require("body-parser");
+mongoose.connect("mongodb://localhost:27017/yelp_camp", {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+}); 
+
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.set("view engine", "ejs");
@@ -11,6 +17,13 @@ app.set("view engine", "ejs");
 app.get("/", function(req, res){
     res.render("landing");
 });
+
+// * Mongoose Schema Setup
+var campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String
+});
+var Campground = mongoose.model("Campground", campgroundSchema);
 
 var campgrounds = [
     {name: "Camp Yogi", image: "https://images.unsplash.com/photo-1532720401185-3c5adeba363c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
@@ -26,7 +39,13 @@ var campgrounds = [
 
 // main campgrounds page
 app.get("/campgrounds", function(req, res){
-    res.render("campgrounds", {campgrounds: campgrounds})
+    Campground.find({}, function(err, allCampgrounds){
+        if(err){
+            console.log(err)
+        } else {
+            res.render("campgrounds", {campgrounds: allCampgrounds})
+        }
+    })
 });
 
 // POST new campground
@@ -35,10 +54,16 @@ app.post("/campgrounds", function(req, res) {
     let name = req.body.name;
     let image = req.body.image;
     let newCampground = {name: name, image: image};
-    campgrounds.push(newCampground);
-    //redirect to campgrounds (used GET by default)
-    res.redirect("/campgrounds");
-
+    // Create new campground and save to database
+    Campground.create(newCampground, function(err, newlyCreated){
+        if(err){
+            // TODO redirect back to form with message
+            console.log(err)
+        } else {
+            //redirect to campgrounds (used GET by default)
+            res.redirect("/campgrounds");      
+        }
+    })
 });
 
 // form for new campground
