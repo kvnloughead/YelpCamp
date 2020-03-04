@@ -63,7 +63,8 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
 
 ### Version 4
 
-
+9. Comments
+    1. Added two nested routes for adding comments to campgrounds
 
 
 
