@@ -1,3 +1,24 @@
+Routes
+------
+
+CAMPGROUND ROUTES
+name        url                                 verb           description
+================================================================================================
+INDEX       /campgrounds                        GET             Displays list of all campgrounds
+NEW         /campgrounds/new                    GET             Displays form for making new campground
+CREATE      /campgrounds                        POST            Adds new campground to DB
+SHOW        /campgrounds/:id                    GET             Shows info about campground `c` with `c._id == id` 
+------------------------------------------------------------------------------------------------
+
+COMMENT ROUTES (nested)
+name        url                                 verb           description
+================================================================================================
+NEW         /campgrounds/:id/comments/new       GET            Displays form for making new comment
+CREATE      /campgrounds/:id/comments           POST           Adds new comment to campground with given id
+
+
+### Version 1
+
 1.  Basic scaffolding in place:  app.js, landing.ejs, campgrounds.ejs.  No real functionality yet.
 
 2.  Changes
@@ -20,4 +41,32 @@
     1. Installed and configured mongoose
     2. Setup campground model
     3. Refactored `app.get("campgrounds)` ake use of campground model inside of our projects routes
+
+### Version 2
+
+7. 
+    1. Added `description` to campground model
+    2. used `db.collection.drop()` to remove old, descriptionless data
+    3. Added SHOW route (following RESTful routes, see bottom of page) to show.ejs (to show info on particular campgrounds)
+        a. refactored new.ejs to include description text input
+        b. refactored app.js to have new campgrounds saved to db with descriptions
+
+### Version 3
+
+8. Changes
+    1. Refactoring: moved Campground schema into models/campgrounds.js
+    2. Added seeds.js file (for creating sample seed data for application)
+    3. Comments:
+        a. Added models/comment.js
+        b. Added a comments array attribute to `campgroundSchema`
+        c. Changed SHOW route to display comments for campgrounds
+
+### Version 4
+
+
+
+
+
+    
+    
 

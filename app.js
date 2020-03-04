@@ -1,8 +1,13 @@
-const express   = require("express"),
-      app       = express(),
-      request   = require("request"),
-      mongoose  = require("mongoose"),
-      bodyParser = require("body-parser");
+const express    = require("express"),
+      app        = express(),
+      request    = require("request"),
+      mongoose   = require("mongoose"),
+      bodyParser = require("body-parser"),
+      Campground = require("./models/campground"),
+      seedDB     = require("./seeds");
+
+
+seedDB();
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {
     useUnifiedTopology: true,
@@ -10,50 +15,30 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", {
 }); 
 
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.set("view engine", "ejs");
-
 
 app.get("/", function(req, res){
     res.render("landing");
-});
+}); 
 
-// * Mongoose Schema Setup
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String
-});
-var Campground = mongoose.model("Campground", campgroundSchema);
-
-var campgrounds = [
-    {name: "Camp Yogi", image: "https://images.unsplash.com/photo-1532720401185-3c5adeba363c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-    {name: "Hooverville", image: "https://images.unsplash.com/photo-1533575770077-052fa2c609fc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-    {name: "Never-Never Land", image: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-    {name: "Camp Yogi", image: "https://images.unsplash.com/photo-1532720401185-3c5adeba363c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-    {name: "Hooverville", image: "https://images.unsplash.com/photo-1533575770077-052fa2c609fc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-    {name: "Never-Never Land", image: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-    {name: "Camp Yogi", image: "https://images.unsplash.com/photo-1532720401185-3c5adeba363c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-    {name: "Hooverville", image: "https://images.unsplash.com/photo-1533575770077-052fa2c609fc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
-    {name: "Never-Never Land", image: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"}
-]
-
-// main campgrounds page
+//INDEX - show all campgrounds
 app.get("/campgrounds", function(req, res){
     Campground.find({}, function(err, allCampgrounds){
         if(err){
             console.log(err)
         } else {
-            res.render("campgrounds", {campgrounds: allCampgrounds})
+            res.render("index", {campgrounds: allCampgrounds})
         }
     })
 });
 
-// POST new campground
+//CREATE - create new campground 
 app.post("/campgrounds", function(req, res) {
     // add new campground to campgrounds array
     let name = req.body.name;
     let image = req.body.image;
-    let newCampground = {name: name, image: image};
+    let description = req.body.description;
+    let newCampground = {name: name, image: image, description: description};
     // Create new campground and save to database
     Campground.create(newCampground, function(err, newlyCreated){
         if(err){
@@ -66,10 +51,25 @@ app.post("/campgrounds", function(req, res) {
     })
 });
 
-// form for new campground
+//NEW - show new campground form
 app.get("/campgrounds/new", function(req, res){
     res.render("new");
 });
+
+//SHOW - shows info about a particular campground
+app.get("/campgrounds/:id", function(req, res){
+    // find campground with _id=id, using built-in Mongo method
+    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
+        if(err){
+            console.log(err);
+        } else {
+            console.log(foundCampground)
+            // render SHOW template for that campground
+            res.render("show", { campground: foundCampground });
+        }
+    });
+    
+})
 
 app.listen(3000, function(){
     console.log("Serving YelpCamp at port 3000...")
