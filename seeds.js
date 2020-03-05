@@ -42,7 +42,7 @@ function seedDB(){
                         //create a comment
                         Comment.create(
                             {
-                                text: "This place is great, but I wish there was internet",
+                                text: "This place is great, but I wish there was internet.  I also wish there was more ice cream.  And a TV.  A bathroom would be nice too.  Actually, next time I think I'll stay home.",
                                 author: "Homer"
                             }, function(err, comment){
                                 if(err){
