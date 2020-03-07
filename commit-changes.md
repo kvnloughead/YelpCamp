@@ -70,6 +70,13 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
 10. Comments: styling
     - Added our first custom .css sheet
 
+### Version 6
+
+11. Authentication
+    - Installed all required packages
+    - Defined User model
+    - Created `register.ejs` and corresponding GET and POST routes.
+
 
 
     

@@ -1,11 +1,14 @@
-const express    = require("express"),
-      app        = express(),
-      request    = require("request"),
-      mongoose   = require("mongoose"),
-      bodyParser = require("body-parser"),
-      Campground = require("./models/campground"),
-      Comment    = require("./models/comment"),
-      seedDB     = require("./seeds");
+const express       = require("express"),
+      app           = express(),
+      request       = require("request"),
+      mongoose      = require("mongoose"),
+      passport      = require("passport"),
+      LocalStrategy = require("passport-local"),
+      bodyParser    = require("body-parser"),
+      Campground    = require("./models/campground"),
+      Comment       = require("./models/comment"),
+      User          = require("./models/user"),
+      seedDB        = require("./seeds");
 
 
 seedDB();
@@ -18,6 +21,26 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", {
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+
+// ========================
+// * Passport Configuration
+// ========================
+
+app.use(require("express-session")({
+    secret: "Top secret documents enclosed",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+// =============
+// * Routes
+// =============
 
 app.get("/", function(req, res){
     res.render("landing");
@@ -73,7 +96,7 @@ app.get("/campgrounds/:id", function(req, res){
 })
 
 // ==================================
-// COMMENTS ROUTES
+// * COMMENTS ROUTES
 // ==================================
 
 app.get("/campgrounds/:id/comments/new", function(req, res){
@@ -109,6 +132,30 @@ app.post("/campgrounds/:id/comments", function(req, res){
         }
     })
 })
+
+// =============
+// * AUTH ROUTES
+// =============
+
+//show register form
+app.get("/register", function(req, res){
+    res.render("register");
+});
+
+//handle signup logic
+app.post("/register", function(req, res){
+    let newUser = new User({username: req.body.username});
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            console.log("Error registering user, username =" + req.body.username);
+            console.log(err);
+            return res.render("register);")
+        }
+        passport.authenticate("local")(req, res, function(){
+            res.redirect("/campgrounds");
+        });  
+    });
+});
 
 app.listen(3000, function(){
     console.log("Serving YelpCamp at port 3000...")
