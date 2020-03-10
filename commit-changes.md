@@ -72,10 +72,15 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
 
 ### Version 6
 
-11. Authentication
+11. Authentification - Registration
     - Installed all required packages
     - Defined User model
     - Created `register.ejs` and corresponding GET and POST routes.
+
+12. Authentification - Login
+    - Created `login.ejs` and corresponding GET and POST routes
+    - Added logout functionality
+    - Added login-status specific navigational buttons (signup, login, logout)
 
 
 

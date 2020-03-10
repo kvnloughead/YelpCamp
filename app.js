@@ -37,6 +37,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Ensure that user data is available to all routes
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+});
 
 // =============
 // * Routes
@@ -52,9 +57,8 @@ app.get("/campgrounds", function(req, res){
         if(err){
             console.log(err)
         } else {
-            res.render("campgrounds/index", {campgrounds: allCampgrounds})
-        }
-    })
+            res.render("campgrounds/index", {campgrounds: allCampgrounds});
+        }})
 });
 
 //CREATE - create new campground 
@@ -99,7 +103,8 @@ app.get("/campgrounds/:id", function(req, res){
 // * COMMENTS ROUTES
 // ==================================
 
-app.get("/campgrounds/:id/comments/new", function(req, res){
+app.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
+    // login locked
     Campground.findById(req.params.id).exec(function(err, campground){
         if(err){
             console.log(err);
@@ -109,7 +114,7 @@ app.get("/campgrounds/:id/comments/new", function(req, res){
     })
 })
 
-app.post("/campgrounds/:id/comments", function(req, res){
+app.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
     // lookup campground using id
     Campground.findById(req.params.id).exec(function(err, campground){
         if(err){
@@ -142,7 +147,7 @@ app.get("/register", function(req, res){
     res.render("register");
 });
 
-//handle signup logic
+// handle signup logic
 app.post("/register", function(req, res){
     let newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err, user){
@@ -156,6 +161,39 @@ app.post("/register", function(req, res){
         });  
     });
 });
+
+// show login form
+app.get("/login", function(req, res){
+    res.render("login");
+})
+// handle login logic
+app.post("/login", 
+         passport.authenticate("local",
+                               { successRedirect: "/campgrounds",
+                                 failureRedirect: "/login"
+                               }), 
+         function(req, res){
+// empty function: login logic handled by passport.authenticate middleware
+}); 
+
+// logout route
+app.get("/logout", function(req, res){
+    req.logout();
+    res.redirect("/campgrounds");
+});
+
+// ============
+// * Middleware
+// ============
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
+
+
 
 app.listen(3000, function(){
     console.log("Serving YelpCamp at port 3000...")
