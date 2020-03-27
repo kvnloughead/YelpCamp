@@ -82,6 +82,10 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
     - Added logout functionality
     - Added login-status specific navigational buttons (signup, login, logout)
 
+### Version 7
+
+13. Refactoring routes.
+
 
 
     
