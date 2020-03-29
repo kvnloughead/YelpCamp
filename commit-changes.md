@@ -86,6 +86,16 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
 
 13. Refactoring routes.
 
+14. Changes
+    - Associate users with comments
+    - Save author's name to a comment automatically
+
+### Version 9 (missed version 8)
+
+15. Changes
+    - Login protected create/post new campground routes
+    - associated users with campgrounds
+
 
 
     

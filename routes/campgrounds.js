@@ -1,6 +1,7 @@
 const express = require("express"),
       Campground = require("../models/campground")
-const router  = express.Router();
+
+const router  = express.Router(); 
 
 //INDEX - show all campgrounds
 router.get("/", function(req, res){
@@ -13,12 +14,17 @@ router.get("/", function(req, res){
 });
 
 //CREATE - create new campground 
-router.post("/", function(req, res) {
+router.post("/", isLoggedIn, function(req, res) {
     // add new campground to campgrounds array
     let name = req.body.name;
     let image = req.body.image;
     let description = req.body.description;
-    let newCampground = {name: name, image: image, description: description};
+    let author = {
+        id: req.user._id,
+        username: req.user.username
+    }
+    let newCampground = {name: name, image: image, description: description, author: author};
+    console.log(newCampground)
     // Create new campground and save to database
     Campground.create(newCampground, function(err, newlyCreated){
         if(err){
@@ -32,7 +38,7 @@ router.post("/", function(req, res) {
 });
 
 //NEW - show new campground form
-router.get("/new", function(req, res){
+router.get("/new", isLoggedIn, function(req, res){
     res.render("campgrounds/new");
 });
 
@@ -49,5 +55,13 @@ router.get("/:id", function(req, res){
         }
     });
 });
+
+// middleware
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 module.exports = router;

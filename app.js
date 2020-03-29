@@ -17,7 +17,8 @@ const commentRoutes     = require("./routes/comments"),
       campgroundRoutes  = require("./routes/campgrounds"),
       indexRoutes       = require("./routes/index");
 
-seedDB();
+// seed database
+// seedDB();
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {
     useUnifiedTopology: true,
