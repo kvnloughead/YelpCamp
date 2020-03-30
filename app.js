@@ -1,16 +1,17 @@
 // * For testing:  user=admin, password=pwd 
 
-const express       = require("express"),
-      app           = express(),
-      request       = require("request"),
-      mongoose      = require("mongoose"),
-      passport      = require("passport"),
-      LocalStrategy = require("passport-local"),
-      bodyParser    = require("body-parser"),
-      Campground    = require("./models/campground"),
-      Comment       = require("./models/comment"),
-      User          = require("./models/user"),
-      seedDB        = require("./seeds");
+const express        = require("express"),
+      app            = express(),
+      request        = require("request"),
+      mongoose       = require("mongoose"),
+      passport       = require("passport"),
+      LocalStrategy  = require("passport-local"),
+      bodyParser     = require("body-parser"),
+      Campground     = require("./models/campground"),
+      methodOverride = require("method-override"),
+      Comment        = require("./models/comment"),
+      User           = require("./models/user"),
+      seedDB         = require("./seeds");
 
 // requiring routes
 const commentRoutes     = require("./routes/comments"),
@@ -28,6 +29,7 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", {
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 
 // ========================
 // * Passport Configuration

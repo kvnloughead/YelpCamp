@@ -96,6 +96,22 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
     - Login protected create/post new campground routes
     - associated users with campgrounds
 
+### Version 10
+
+16. Editing Campgrounds
+    - Edit campground button
+        - Add method-override
+        - Add Edit campground route
+        - Add link to edit page
+        - Add Update campground route
+
+17. Deleting Campgrounds
+    - Add Destroy route
+    - Add Delete button
+
+
+
+
 
 
     
