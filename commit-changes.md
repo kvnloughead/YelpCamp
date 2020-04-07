@@ -104,10 +104,16 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
         - Add Edit campground route
         - Add link to edit page
         - Add Update campground route
+    Deleting Campgrounds
+        - Add Destroy route
+        - Add Delete button
 
-17. Deleting Campgrounds
-    - Add Destroy route
-    - Add Delete button
+17. User Authorization (via `checkCampgroundOwnership middleware`)
+    - for editing campgrounds
+    - for deleting campgrounds
+    - Hide/show edit and delete buttons
+
+
 
 
 
