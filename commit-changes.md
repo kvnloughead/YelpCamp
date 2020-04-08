@@ -113,6 +113,15 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
     - for deleting campgrounds
     - Hide/show edit and delete buttons
 
+18. Editing comments
+    - Add Edit route for comments
+    - Add Edit button
+    - Add Update route for comments
+
+    Deleting comments
+    - Add Destroy route
+    - Add Delete button
+
 
 
 

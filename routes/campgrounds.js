@@ -24,7 +24,6 @@ router.post("/", isLoggedIn, function(req, res) {
         username: req.user.username
     }
     let newCampground = {name: name, image: image, description: description, author: author};
-    console.log(newCampground)
     // Create new campground and save to database
     Campground.create(newCampground, function(err, newlyCreated){
         if(err){
@@ -49,7 +48,6 @@ router.get("/:id", function(req, res){
         if(err){
             console.log(err);
         } else {
-            console.log(foundCampground)
             // render SHOW template for that campground
             res.render("campgrounds/show", { campground: foundCampground });
         }
