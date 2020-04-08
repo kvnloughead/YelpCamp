@@ -122,6 +122,11 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
     - Add Destroy route
     - Add Delete button
 
+19. User Authorization for Comments
+    - Hide/show edit/delete buttons depending on ownership
+    - user auth for edit/delete comments
+    - refactor middleware
+
 
 
 

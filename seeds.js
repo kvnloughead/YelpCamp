@@ -51,11 +51,16 @@ function seedDB(){
                         console.log(err)
                     } else {
                         console.log("added a campground");
-                        //create a comment
+                        //create a comment - need to manual case random hex string into id for comment
+                        let ObjectId = require('mongoose').Types.ObjectId;
+                        comment_id = new ObjectId(genHexString(24));
                         Comment.create(
                             {
                                 text: "This place is great, but I wish there was internet.  I also wish there was more ice cream.  And a TV.  A bathroom would be nice too.  Actually, next time I think I'll stay home.",
-                                author: "Homer"
+                                author: {
+                                    username: "Homer",
+                                    id: comment_id
+                                }
                             }, function(err, comment){
                                 if(err){
                                     console.log(err);
@@ -70,6 +75,15 @@ function seedDB(){
             });
         });
     }); 
+}
+
+function genHexString(len) {
+    const hex = '0123456789ABCDEF';
+    let output = '';
+    for (let i = 0; i < len; ++i) {
+        output += hex.charAt(Math.floor(Math.random() * hex.length));
+    }
+    return output;
 }
  
 module.exports = seedDB;
