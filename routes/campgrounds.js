@@ -19,16 +19,16 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
     // add new campground to campgrounds array
     let name = req.body.name;
     let image = req.body.image;
+    let price = req.body.price;
     let description = req.body.description;
     let author = {
         id: req.user._id,
         username: req.user.username
     }
-    let newCampground = {name: name, image: image, description: description, author: author};
+    let newCampground = {name: name, image: image, price: price, description: description, author: author};
     // Create new campground and save to database
     Campground.create(newCampground, function(err, newlyCreated){
         if(err){
-            // TODO redirect back to form with message
             console.log(err)
         } else {
             //redirect to campgrounds (used GET by default)

@@ -134,6 +134,8 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
 
 21. Landing page improvements
 
+22. Dynamic prices
+
 
 
 
