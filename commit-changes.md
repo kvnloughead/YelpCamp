@@ -127,6 +127,13 @@ CREATE      /campgrounds/:id/comments           POST           Adds new comment 
     - user auth for edit/delete comments
     - refactor middleware
 
+20. Changes
+    - Add in Flash (for alerts)
+    - Improve redirections in all routes
+    - Error handling improvement
+
+21. Landing page improvements
+
 
 
 
